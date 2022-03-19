@@ -1,4 +1,6 @@
 import {
+  Box,
+  CircularProgress,
   Grid,
   List,
   ListItem,
@@ -12,9 +14,9 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { getTruyen } from '../../api';
-import { SideBar } from '../SideBar';
-import { Chapter, Truyen } from '../types';
+import { getTruyen } from '../api';
+import { SideBar } from './SideBar';
+import { Chapter, Truyen } from './types';
 
 export const TruyenDetail = () => {
   const { slug } = useParams();
@@ -28,21 +30,34 @@ export const TruyenDetail = () => {
     }
   }, [slug]);
 
+  if (!truyen) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid container item xs={8}>
         <Grid container item xs={12}>
           <Grid item xs={12}>
-            <Typography variant="h5" sx={{textAlign: 'center'}} gutterBottom component="h5">
-              {truyen?.title}
+            <Typography
+              variant="h5"
+              sx={{ textAlign: 'center' }}
+              gutterBottom
+              component="h5"
+            >
+              {truyen.title}
             </Typography>
           </Grid>
           <Grid container item xs={12} spacing={3}>
             <Grid item xs={4}>
               <img
                 style={{ width: '100%' }}
-                src={truyen?.cover}
-                alt={truyen?.title}
+                src={truyen.cover}
+                alt={truyen.title}
               />
             </Grid>
             <Grid item xs={8}>
@@ -53,7 +68,7 @@ export const TruyenDetail = () => {
                       Ten khac
                     </Grid>
                     <Grid item xs={9}>
-                      {truyen?.otherName?.join(' ; ')}
+                      {truyen.otherName.join(' ; ')}
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -63,7 +78,7 @@ export const TruyenDetail = () => {
                       Tac gia
                     </Grid>
                     <Grid item xs={9}>
-                      {truyen?.author}
+                      {truyen.author}
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -73,7 +88,7 @@ export const TruyenDetail = () => {
                       Tinh trang
                     </Grid>
                     <Grid item xs={9}>
-                      {truyen?.status}
+                      {truyen.status}
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -83,7 +98,7 @@ export const TruyenDetail = () => {
                       The loai
                     </Grid>
                     <Grid item xs={9}>
-                      {truyen?.kind.join(' - ')}
+                      {truyen.kind.join(' - ')}
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -92,36 +107,37 @@ export const TruyenDetail = () => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          {truyen?.detail}
+          {truyen.detail}
         </Grid>
         <Grid item xs={12}>
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
-                  {truyen?.chapters &&
-                    Object.keys(truyen?.chapters[0]!)
-                      .filter((key) => !['_id', 'images', 'url'].includes(key))
-                      .map((key) => <TableCell key={key}>{key}</TableCell>)}
+                  {Object.keys(truyen?.chapters?.[0]!)
+                    .filter((key) => !['_id', 'images', 'url'].includes(key))
+                    .map((key) => (
+                      <TableCell key={key}>{key}</TableCell>
+                    ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {truyen?.chapters &&
-                  truyen?.chapters.map((chapter) => (
-                    <TableRow>
-                      {Object.keys(chapter)
-                        .filter(
-                          (key) => !['_id', 'images', 'url'].includes(key)
-                        )
-                        .map((key) => (
-                          <TableCell key={key}>
-                            <Link to={String(chapter.chapNumber)} style={{ textDecoration: 'none' }}>
-                              {`Chapter ${chapter[key as keyof Chapter]}`}
-                            </Link>
-                          </TableCell>
-                        ))}
-                    </TableRow>
-                  ))}
+                {truyen?.chapters?.map((chapter) => (
+                  <TableRow>
+                    {Object.keys(chapter)
+                      .filter((key) => !['_id', 'images', 'url'].includes(key))
+                      .map((key) => (
+                        <TableCell key={key}>
+                          <Link
+                            to={String(chapter.chapNumber)}
+                            style={{ textDecoration: 'none' }}
+                          >
+                            {`Chapter ${chapter[key as keyof Chapter]}`}
+                          </Link>
+                        </TableCell>
+                      ))}
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>

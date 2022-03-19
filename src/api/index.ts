@@ -1,14 +1,16 @@
-import axios from "axios";
-import { Truyen } from "../Components/types";
+import axios from 'axios';
+import { Chapter, Truyen } from '../Components/types';
 
 const apiUrl = 'http://localhost:4000';
 
 export async function getPageTruyen(page: number) {
   try {
-    const response = await axios.get<Array<Pick<Truyen, "url" | "slug" | "title" | "cover">>>(`${apiUrl}/page/${page}`, {
+    const response = await axios.get<
+      Array<Pick<Truyen, 'url' | 'slug' | 'title' | 'cover'>>
+    >(`${apiUrl}/page/${page}`, {
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
     });
     return response.data;
   } catch (e) {
@@ -19,7 +21,7 @@ export async function getPageTruyen(page: number) {
 
 export async function getCount() {
   try {
-    const response = await axios.get<{ total: number }>(`${apiUrl}/count`)
+    const response = await axios.get<{ total: number }>(`${apiUrl}/count`);
     return response.data.total;
   } catch (e) {
     console.log(e);
@@ -34,5 +36,15 @@ export async function getTruyen(slug: string) {
   } catch (e) {
     console.log(e);
     return undefined;
+  }
+}
+
+export async function getChapter(slug: string, chapNumber: number | string) {
+  try {
+    const response = await axios.get<Chapter>(`${apiUrl}/truyen-tranh/${slug}/${chapNumber}`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return null;
   }
 }

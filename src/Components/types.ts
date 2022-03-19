@@ -9,13 +9,13 @@ interface Chapter {
 interface Truyen {
   url: Url,
   title: string,
-  otherName?: Array<string>,
+  otherName: Array<string>,
   author: string,
   status: string,
   kind: Array<string>,
-  slug?: string,
+  slug: string,
   chapters?: Array<Chapter>,
-  detail?: string,
+  detail: string,
   cover: Url,
 };
 
