@@ -22,7 +22,7 @@ const MainPage = () => {
         setListTruyen(truyens);
       }
     });
-  }, [searchParams]);
+  }, [searchParams, setSearchParams]);
 
   useEffect(() => {
     getCount().then((total) => {

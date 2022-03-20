@@ -20,7 +20,7 @@ function Dashboard() {
             alignItems="center"
             justifyContent="center"
           >
-            <img src={logo} />
+            <img src={logo} alt="logo"/>
           </Grid>
           <Grid item xs>
             <Autocomplete
@@ -41,7 +41,7 @@ function Dashboard() {
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={4}>
-            <img src={logo} />
+            <img src={logo} alt="logo" />
           </Grid>
           <Grid item xs={8}>
             The loai

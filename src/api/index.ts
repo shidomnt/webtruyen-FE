@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Chapter, Truyen } from '../Components/types';
 
-const apiUrl = 'http://localhost:4000';
+const apiUrl = 'https://web-truyen-123.herokuapp.com';
 
 export async function getPageTruyen(page: number) {
   try {
