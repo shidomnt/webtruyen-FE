@@ -1,9 +1,6 @@
-import React from 'react'
 
-export const SideBar = (props : {}) => {
+export const SideBar = (props: {}) => {
   return (
-    <div>
-      SideBar
-    </div>
+    <div>Sidebar</div>
   )
 }

@@ -1,34 +1,49 @@
-import { Container, Grid, Pagination, PaginationItem } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { getCount, getPageTruyen } from '../api';
-import { CardTruyen } from './CardTruyen';
-import { SideBar } from './SideBar';
-import { Truyen } from './types';
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Grid,
+  Pagination,
+  PaginationItem,
+} from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { getCount, getPageTruyen } from '../api'
+import { CardTruyen } from './CardTruyen'
+import { SideBar } from './SideBar'
+import { Truyen } from './types'
 
 const MainPage = () => {
   const [listTruyen, setListTruyen] = useState<
     Array<Pick<Truyen, 'url' | 'slug' | 'title' | 'cover'>>
-  >([]);
-  const [totalPage, setTotalPage] = useState<number>(1);
-  const [searchParams, setSearchParams] = useSearchParams({ page: '1' });
+  >([])
+  const [totalPage, setTotalPage] = useState<number>(1)
+  const [searchParams, setSearchParams] = useSearchParams({ page: '1' })
 
   useEffect(() => {
     if (!(Number(searchParams.get('page')) > 0)) {
-      setSearchParams({ page: '1' });
+      setSearchParams({ page: '1' })
     }
     getPageTruyen(Number(searchParams.get('page'))).then((truyens) => {
       if (truyens) {
-        setListTruyen(truyens);
+        setListTruyen(truyens)
       }
-    });
-  }, [searchParams, setSearchParams]);
+    })
+  }, [searchParams, setSearchParams])
 
   useEffect(() => {
     getCount().then((total) => {
-      setTotalPage(total);
-    });
-  }, []);
+      setTotalPage(total)
+    })
+  }, [])
+
+  if (!listTruyen.length) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress />
+      </Box>
+    )
+  }
 
   return (
     <Grid container spacing={4}>
@@ -37,7 +52,6 @@ const MainPage = () => {
           <Grid key={truyen.slug} item xs={3}>
             <Link
               to={`truyen-tranh/${truyen.slug}`}
-              state={{ truyen }}
               style={{ textDecoration: 'none' }}
             >
               <CardTruyen truyen={truyen} />
@@ -72,7 +86,7 @@ const MainPage = () => {
         <SideBar />
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage

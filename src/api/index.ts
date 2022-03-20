@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Chapter, Truyen } from '../Components/types';
 
-const apiUrl = 'https://web-truyen-123.herokuapp.com';
+const apiUrl = 'http://localhost:4000';
 
 export async function getPageTruyen(page: number) {
   try {
@@ -44,6 +44,16 @@ export async function getChapter(slug: string, chapNumber: number | string) {
     const response = await axios.get<Chapter>(`${apiUrl}/truyen-tranh/${slug}/${chapNumber}`);
     return response.data;
   } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
+export async function searchByQuery(query: { title: string }) {
+  try {
+    const response = await axios.get<Array<Pick<Truyen, "title" | "slug" | "cover">>>(`${apiUrl}/timkiem?title=${query.title}`);
+    return response.data;
+  } catch(e) {
     console.log(e);
     return null;
   }

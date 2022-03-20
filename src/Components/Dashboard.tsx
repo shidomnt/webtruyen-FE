@@ -1,18 +1,36 @@
-import { Autocomplete, Grid, TextField } from '@mui/material';
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import logo from '../assets/img/logo.png';
+import { Autocomplete, Box, Grid, TextField } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Link, Outlet } from 'react-router-dom'
+import { searchByQuery } from '../api'
+import { ReactComponent as Logo } from '../assets/img/logo.svg'
+import { Truyen } from './types'
 
 function Dashboard() {
+  const [searchInput, setSearchInput] = useState('')
+  const [searchOption, setSearchOption] = useState<
+    Array<Pick<Truyen, 'title' | 'slug' | 'cover'>>
+  >([])
+
+  useEffect(() => {
+    let id: ReturnType<typeof setTimeout>;
+    if (searchInput) {
+      id = setTimeout(() => {
+        searchByQuery({ title: searchInput }).then((options) => {
+          if (options) {
+            setSearchOption(options)
+          }
+        })
+      }, 500)
+    }
+    return () => {
+      clearTimeout(id)
+    }
+  }, [searchInput])
+
   return (
     <React.Fragment>
-      <Grid
-        maxWidth={1000}
-        margin="auto"
-        container
-        spacing={2}
-      >
-        <Grid container item xs={12} spacing={2}>
+      <Grid maxWidth={1000} margin="auto" container spacing={2}>
+        <Grid container item xs={12} spacing={2} sx={{ height: '100%' }}>
           <Grid
             item
             xs={3}
@@ -20,15 +38,39 @@ function Dashboard() {
             alignItems="center"
             justifyContent="center"
           >
-            <img src={logo} alt="logo"/>
+            <Link to="/">
+              {/* <img style={{height: '100%'}} src={logo} alt="logo"/> */}
+              <Logo height={55} />
+            </Link>
           </Grid>
           <Grid item xs>
             <Autocomplete
               disablePortal
-              id="combo-box-demo"
-              options={[]}
+              options={searchOption}
+              renderOption={(props, option) => (
+                <Link to={`/truyen-tranh/${option.slug}`} key={option.slug}>
+                  <Box sx={{ display: 'flex', padding: '5px' }}>
+                    <img
+                      src={option.cover}
+                      style={{
+                        width: '50px',
+                        height: '50px',
+                        marginRight: '10px',
+                      }}
+                      alt=""
+                    />
+                    <Box sx={{ flex: '1' }}>{option.title}</Box>
+                  </Box>
+                </Link>
+              )}
+              getOptionLabel={(option) => option.title}
               renderInput={(params) => (
-                <TextField {...params} label="Tìm kiếm truyện" />
+                <TextField
+                  {...params}
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  label="Tìm kiếm truyện"
+                />
               )}
             />
           </Grid>
@@ -41,7 +83,8 @@ function Dashboard() {
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={4}>
-            <img src={logo} alt="logo" />
+            {/* <img src={logo} alt="logo" /> */}
+            <Logo height={55} />
           </Grid>
           <Grid item xs={8}>
             The loai
@@ -49,7 +92,7 @@ function Dashboard() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Dashboard;
+export default Dashboard

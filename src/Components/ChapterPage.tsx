@@ -31,8 +31,8 @@ export const ChapterPage = () => {
     <List>
       {
       chapter.images.map(image => (
-        <ListItem>
-          <img src={image} alt={String(chapter.chapNumber)} />
+        <ListItem sx={{padding: '0 16px'}}>
+          <img style={{width: '100%'}} src={image} alt={String(chapter.chapNumber)} />
         </ListItem>
       ))
     }
