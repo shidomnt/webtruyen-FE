@@ -30,8 +30,8 @@ export const ChapterPage = () => {
   return (
     <List>
       {
-      chapter.images.map(image => (
-        <ListItem sx={{padding: '0 16px'}}>
+      chapter.images.map((image, index) => (
+        <ListItem key={index} sx={{padding: '0 16px'}}>
           <img style={{width: '100%'}} src={image} alt={String(chapter.chapNumber)} />
         </ListItem>
       ))

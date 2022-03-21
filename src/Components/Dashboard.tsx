@@ -1,5 +1,5 @@
-import { Autocomplete, Box, Grid, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Autocomplete, Box, Container, Grid, Stack, TextField, Typography } from '@mui/material'
+import React, { KeyboardEventHandler, useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { searchByQuery } from '../api'
 import { ReactComponent as Logo } from '../assets/img/logo.svg'
@@ -12,7 +12,7 @@ function Dashboard() {
   >([])
 
   useEffect(() => {
-    let id: ReturnType<typeof setTimeout>;
+    let id: ReturnType<typeof setTimeout>
     if (searchInput) {
       id = setTimeout(() => {
         searchByQuery({ title: searchInput }).then((options) => {
@@ -29,8 +29,9 @@ function Dashboard() {
 
   return (
     <React.Fragment>
-      <Grid maxWidth={1000} margin="auto" container spacing={2}>
-        <Grid container item xs={12} spacing={2} sx={{ height: '100%' }}>
+      <Container sx={{width: '1000px'}}>
+       <Stack spacing={2}>
+       <Grid container spacing={2} sx={{ height: '100%', padding: '16px 0' }}>
           <Grid
             item
             xs={3}
@@ -47,23 +48,18 @@ function Dashboard() {
             <Autocomplete
               disablePortal
               options={searchOption}
-              renderOption={(props, option) => (
-                <Link to={`/truyen-tranh/${option.slug}`} key={option.slug}>
-                  <Box sx={{ display: 'flex', padding: '5px' }}>
-                    <img
-                      src={option.cover}
-                      style={{
-                        width: '50px',
-                        height: '50px',
-                        marginRight: '10px',
-                      }}
-                      alt=""
-                    />
-                    <Box sx={{ flex: '1' }}>{option.title}</Box>
-                  </Box>
-                </Link>
-              )}
               getOptionLabel={(option) => option.title}
+              isOptionEqualToValue={(option, value) => true}
+              renderOption={(props, option) => (
+                <li {...props} key={option.slug}>
+                  <Link
+                    style={{ textDecoration: 'none' }}
+                    to={`/truyen-tranh/${option.slug}`}
+                  >
+                    {option.title}
+                  </Link>
+                </li>
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -78,19 +74,18 @@ function Dashboard() {
             <Link to="/login">Login</Link> /<Link to="/register">Register</Link>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
           <Outlet />
-        </Grid>
-        <Grid container item xs={12}>
+        <Grid container>
           <Grid item xs={4}>
             {/* <img src={logo} alt="logo" /> */}
             <Logo height={55} />
           </Grid>
           <Grid item xs={8}>
-            The loai
+            Thong tin lien he....
           </Grid>
         </Grid>
-      </Grid>
+       </Stack>
+      </Container>
     </React.Fragment>
   )
 }
