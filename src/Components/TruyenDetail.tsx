@@ -15,13 +15,13 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import Loading from "./Loading";
-import { SideBar } from "./SideBar";
-import { TruyenContext } from "./TruyenPage";
-import { Chapter } from "./types";
+} from '@mui/material';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import Loading from './Loading';
+import { SideBar } from './SideBar';
+import { TruyenContext } from './TruyenPage';
+import { Chapter } from './types';
 
 export default function TruyenDetail() {
   const { truyen } = useContext(TruyenContext);
@@ -32,28 +32,32 @@ export default function TruyenDetail() {
 
   return (
     <Grid container spacing={2}>
-      <Grid container item xs={8}>
+      <Grid container item xs>
         <Stack spacing={4}>
           <Box>
             <Typography
-              sx={{ textAlign: "center" }}
+              sx={{ textAlign: 'center' }}
               gutterBottom
               variant="h4"
               component="div"
             >
               {truyen.title}
             </Typography>
-            <Card sx={{ width: "100%", flexDirection: "column" }}>
+            <Card sx={{ width: '100%', flexDirection: 'column' }}>
               <CardActionArea
-                sx={{ display: "flex", justifyContent: "flex-start", padding: '5px' }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  padding: '5px',
+                }}
               >
                 <CardMedia
                   component="img"
-                  sx={{ width: "200px" }}
+                  sx={{ width: '200px' }}
                   image={truyen.cover}
                   alt="cover"
                 />
-                <CardContent sx={{ flex: '1'}}>
+                <CardContent sx={{ flex: '1' }}>
                   <List>
                     <ListItem>
                       <Grid container>
@@ -61,7 +65,7 @@ export default function TruyenDetail() {
                           Tên khác
                         </Grid>
                         <Grid item xs={9}>
-                          {truyen.otherName.join(" ; ")}
+                          {truyen.otherName.join(' ; ')}
                         </Grid>
                       </Grid>
                     </ListItem>
@@ -91,7 +95,7 @@ export default function TruyenDetail() {
                           Thể loại
                         </Grid>
                         <Grid item xs={9}>
-                          {truyen.kind.join(" - ")}
+                          {truyen.kind.join(' - ')}
                         </Grid>
                       </Grid>
                     </ListItem>
@@ -101,7 +105,7 @@ export default function TruyenDetail() {
             </Card>
           </Box>
           <Box>
-            <Card sx={{ width: "100%" }}>
+            <Card sx={{ width: '100%' }}>
               <CardActionArea>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
@@ -127,13 +131,13 @@ export default function TruyenDetail() {
                     <TableRow key={chapter.chapNumber}>
                       {Object.keys(chapter)
                         .filter(
-                          (key) => !["_id", "images", "url"].includes(key)
+                          (key) => !['_id', 'images', 'url'].includes(key)
                         )
                         .map((key) => (
                           <TableCell key={key}>
                             <Link
                               to={String(chapter.chapNumber)}
-                              style={{ textDecoration: "none" }}
+                              style={{ textDecoration: 'none' }}
                             >
                               {`Chapter ${chapter[key as keyof Chapter]}`}
                             </Link>
@@ -147,7 +151,7 @@ export default function TruyenDetail() {
           </Box>
         </Stack>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={3}>
         <SideBar />
       </Grid>
     </Grid>
