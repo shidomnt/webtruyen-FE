@@ -3,11 +3,11 @@ import { Outlet, useParams } from 'react-router-dom';
 import { getTruyen } from '../api';
 import { Truyen } from './types';
 
-interface TruyenContext {
+interface TruyenContextType {
   truyen: Truyen | undefined;
 }
 
-const TruyenContext = React.createContext<TruyenContext>({
+const TruyenContext = React.createContext<TruyenContextType>({
   truyen: undefined,
 });
 

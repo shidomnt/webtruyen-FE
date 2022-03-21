@@ -18,19 +18,20 @@ import Breadcrumb from './Breadcrumb';
 import { Truyen } from './types';
 
 function Dashboard() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [searchOption, setSearchOption] = useState<
     Array<Pick<Truyen, 'title' | 'slug' | 'cover'>>
   >([]);
 
-  const loading = open && searchOption.length === 0 && !!searchInput;
-
   useEffect(() => {
     let id: ReturnType<typeof setTimeout>;
-    if (searchInput) {
+    if (searchInput && open) {
       id = setTimeout(() => {
+        setLoading(true);
         searchByQuery({ title: searchInput }).then((options) => {
+          setLoading(false);
           if (options) {
             setSearchOption(options);
           }
@@ -40,7 +41,7 @@ function Dashboard() {
     return () => {
       clearTimeout(id);
     };
-  }, [searchInput]);
+  }, [searchInput, open]);
 
   useEffect(() => {
     if (!open) {
