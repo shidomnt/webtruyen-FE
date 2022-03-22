@@ -78,10 +78,11 @@ const MainPage = () => {
                 <PaginationItem
                   component={Link}
                   to={`/?page=${item.page}${
-                    searchParams.get('kind') &&
-                    `${
-                      searchParams.get('page') ? '&' : '?'
-                    }kind=${searchParams.get('kind')}`
+                    searchParams.get('kind')
+                      ? `${
+                          searchParams.get('page') ? '&' : '?'
+                        }kind=${searchParams.get('kind')}`
+                      : ''
                   }`}
                   {...item}
                 />
