@@ -73,13 +73,20 @@ const MainPage = () => {
             count={totalPage}
             color="primary"
             page={Number(searchParams.get('page')) || 1}
-            renderItem={(item) => (
-              <PaginationItem
-                component={Link}
-                to={`/${item.page === 1 ? '' : `?page=${item.page}`}`}
-                {...item}
-              />
-            )}
+            renderItem={(item) => {
+              return (
+                <PaginationItem
+                  component={Link}
+                  to={`/?page=${item.page}${
+                    searchParams.get('kind') &&
+                    `${
+                      searchParams.get('page') ? '&' : '?'
+                    }kind=${searchParams.get('kind')}`
+                  }`}
+                  {...item}
+                />
+              );
+            }}
           />
         </Container>
       </Grid>

@@ -14,7 +14,6 @@ export default function Breadcrumb() {
     .filter((x) => x)
     .slice(1);
   const state = location.state as LocationStateType | null;
-  console.log(pathnames);
   return (
     <Breadcrumbs separator={<NavigateNextSharpIcon />}>
       <Link
@@ -23,14 +22,14 @@ export default function Breadcrumb() {
         color="inherit"
         to={`/${state ? `?page=${state.fromPage}` : ''}`}
       >
-        <Chip label="Home" />
+        <Chip component={'div'} label="Home" />
       </Link>
       {pathnames.map((value, index) => {
         const last = index === pathnames.length - 1;
         const to = `/truyen-tranh/${value}`;
 
         return last ? (
-          <Typography color="text.primary" key={to}>
+          <Typography component={'div'} color="text.primary" key={to}>
             <Chip label={value} color="primary" />
           </Typography>
         ) : (

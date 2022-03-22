@@ -1,23 +1,23 @@
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Card,
-  CardActionArea,
   CardContent,
   CardMedia,
+  Divider,
   Grid,
   List,
   ListItem,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Link,
   Typography,
+  Badge,
 } from '@mui/material';
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { useContext } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import Loading from './Loading';
 import { SideBar } from './SideBar';
 import { TruyenContext } from './TruyenPage';
@@ -44,11 +44,10 @@ export default function TruyenDetail() {
               {truyen.title}
             </Typography>
             <Card sx={{ width: '100%', flexDirection: 'column' }}>
-              <CardActionArea
+              <CardContent
                 sx={{
                   display: 'flex',
                   justifyContent: 'flex-start',
-                  padding: '5px',
                 }}
               >
                 <CardMedia
@@ -59,6 +58,7 @@ export default function TruyenDetail() {
                 />
                 <CardContent sx={{ flex: '1' }}>
                   <List>
+                    <Divider />
                     <ListItem>
                       <Grid container>
                         <Grid item xs={3}>
@@ -69,6 +69,7 @@ export default function TruyenDetail() {
                         </Grid>
                       </Grid>
                     </ListItem>
+                    <Divider />
                     <ListItem>
                       <Grid container>
                         <Grid item xs={3}>
@@ -79,6 +80,7 @@ export default function TruyenDetail() {
                         </Grid>
                       </Grid>
                     </ListItem>
+                    <Divider />
                     <ListItem>
                       <Grid container>
                         <Grid item xs={3}>
@@ -89,65 +91,86 @@ export default function TruyenDetail() {
                         </Grid>
                       </Grid>
                     </ListItem>
+                    <Divider />
                     <ListItem>
                       <Grid container>
                         <Grid item xs={3}>
                           Thể loại
                         </Grid>
                         <Grid item xs={9}>
-                          {truyen.kind.join(' - ')}
+                          {truyen.kind.map((theloai, index, kind) => (
+                            <React.Fragment>
+                              <Link
+                                component={RouterLink}
+                                to={`/?kind=${theloai}`}
+                              >
+                                {theloai}
+                              </Link>
+                              {index === kind.length - 1 ? '' : ' - '}
+                            </React.Fragment>
+                          ))}
                         </Grid>
                       </Grid>
                     </ListItem>
+                    <Divider />
                   </List>
                 </CardContent>
-              </CardActionArea>
+              </CardContent>
             </Card>
           </Box>
           <Box>
             <Card sx={{ width: '100%' }}>
-              <CardActionArea>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Nội dung chính
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {truyen.detail}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Nội dung chính
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {truyen.detail}
+                </Typography>
+              </CardContent>
             </Card>
           </Box>
           <Box>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Danh sách Chapter</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {truyen?.chapters?.map((chapter) => (
-                    <TableRow key={chapter.chapNumber}>
-                      {Object.keys(chapter)
-                        .filter(
-                          (key) => !['_id', 'images', 'url'].includes(key)
-                        )
-                        .map((key) => (
-                          <TableCell key={key}>
-                            <Link
-                              to={String(chapter.chapNumber)}
-                              style={{ textDecoration: 'none' }}
-                            >
-                              {`Chapter ${chapter[key as keyof Chapter]}`}
-                            </Link>
-                          </TableCell>
-                        ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Badge
+              sx={{ width: '100%' }}
+              badgeContent={truyen.chapters.length}
+              color="primary"
+              max={999}
+            >
+              <Accordion
+                sx={{ width: '100%' }}
+                TransitionProps={{ unmountOnExit: true }}
+              >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  Danh sách chap
+                </AccordionSummary>
+                <AccordionDetails>
+                  <List>
+                    {truyen.chapters.map((chapter) => (
+                      <React.Fragment>
+                        <ListItem key={chapter.chapNumber}>
+                          {Object.keys(chapter)
+                            .filter(
+                              (key) => !['_id', 'images', 'url'].includes(key)
+                            )
+                            .map((key) => (
+                              <Link
+                                key={key}
+                                component={RouterLink}
+                                to={String(chapter.chapNumber)}
+                                sx={{ textDecoration: 'none' }}
+                              >
+                                {`Chapter ${chapter[key as keyof Chapter]}`}
+                              </Link>
+                            ))}
+                        </ListItem>
+                        <Divider />
+                      </React.Fragment>
+                    ))}
+                  </List>
+                </AccordionDetails>
+              </Accordion>
+            </Badge>
           </Box>
         </Stack>
       </Grid>

@@ -125,7 +125,7 @@ function Dashboard() {
                   />
                 </Grid>
                 <Grid item xs={2} container justifyContent="center">
-                  <Button variant="contained" color="inherit">
+                  <Button variant="contained" color="primary">
                     Login
                   </Button>
                 </Grid>
