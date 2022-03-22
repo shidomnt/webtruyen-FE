@@ -14,7 +14,7 @@ interface Truyen {
   status: string;
   kind: Array<string>;
   slug: string;
-  chapters: Array<Chapter>;
+  chapters?: Array<Chapter>;
   detail: string;
   cover: Url;
 }

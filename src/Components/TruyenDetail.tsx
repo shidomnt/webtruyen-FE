@@ -133,7 +133,7 @@ export default function TruyenDetail() {
           <Box>
             <Badge
               sx={{ width: '100%' }}
-              badgeContent={truyen.chapters.length}
+              badgeContent={truyen?.chapters?.length || 0}
               color="primary"
               max={999}
             >
@@ -146,27 +146,28 @@ export default function TruyenDetail() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <List>
-                    {truyen.chapters.map((chapter) => (
-                      <React.Fragment>
-                        <ListItem key={chapter.chapNumber}>
-                          {Object.keys(chapter)
-                            .filter(
-                              (key) => !['_id', 'images', 'url'].includes(key)
-                            )
-                            .map((key) => (
-                              <Link
-                                key={key}
-                                component={RouterLink}
-                                to={String(chapter.chapNumber)}
-                                sx={{ textDecoration: 'none' }}
-                              >
-                                {`Chapter ${chapter[key as keyof Chapter]}`}
-                              </Link>
-                            ))}
-                        </ListItem>
-                        <Divider />
-                      </React.Fragment>
-                    ))}
+                    {truyen.chapters &&
+                      truyen.chapters.map((chapter) => (
+                        <React.Fragment>
+                          <ListItem key={chapter.chapNumber}>
+                            {Object.keys(chapter)
+                              .filter(
+                                (key) => !['_id', 'images', 'url'].includes(key)
+                              )
+                              .map((key) => (
+                                <Link
+                                  key={key}
+                                  component={RouterLink}
+                                  to={String(chapter.chapNumber)}
+                                  sx={{ textDecoration: 'none' }}
+                                >
+                                  {`Chapter ${chapter[key as keyof Chapter]}`}
+                                </Link>
+                              ))}
+                          </ListItem>
+                          <Divider />
+                        </React.Fragment>
+                      ))}
                   </List>
                 </AccordionDetails>
               </Accordion>

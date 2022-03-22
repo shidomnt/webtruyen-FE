@@ -27,7 +27,7 @@ export default function SpeedDial() {
   const { truyen } = useContext(TruyenContext);
 
   useEffect(() => {
-    if (params.chapNumber && truyen) {
+    if (params.chapNumber && truyen?.chapters) {
       const chapter = truyen.chapters.find(
         (chap) => chap.chapNumber === Number(params.chapNumber)
       )!;
