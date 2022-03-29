@@ -33,7 +33,7 @@ export default function TruyenDetail() {
   return (
     <Grid container spacing={2}>
       <Grid container item xs>
-        <Stack spacing={4}>
+        <Stack spacing={4} sx={{ width: '100%' }}>
           <Box>
             <Typography
               sx={{ textAlign: 'center' }}
@@ -99,7 +99,7 @@ export default function TruyenDetail() {
                         </Grid>
                         <Grid item xs={9}>
                           {truyen.kind.map((theloai, index, kind) => (
-                            <React.Fragment>
+                            <React.Fragment key={theloai}>
                               <Link
                                 component={RouterLink}
                                 to={`/?kind=${theloai}`}
@@ -146,10 +146,10 @@ export default function TruyenDetail() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <List>
-                    {truyen.chapters &&
+                    {truyen.chapters ? (
                       truyen.chapters.map((chapter) => (
-                        <React.Fragment>
-                          <ListItem key={chapter.chapNumber}>
+                        <React.Fragment key={chapter.chapNumber}>
+                          <ListItem>
                             {Object.keys(chapter)
                               .filter(
                                 (key) => !['_id', 'images', 'url'].includes(key)
@@ -167,7 +167,12 @@ export default function TruyenDetail() {
                           </ListItem>
                           <Divider />
                         </React.Fragment>
-                      ))}
+                      ))
+                    ) : (
+                      <Typography variant="body2" textAlign="center">
+                        Đang cập nhật...
+                      </Typography>
+                    )}
                   </List>
                 </AccordionDetails>
               </Accordion>

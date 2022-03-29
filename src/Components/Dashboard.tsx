@@ -89,6 +89,7 @@ function Dashboard() {
                     isOptionEqualToValue={() => true}
                     options={searchOption}
                     loading={loading}
+                    noOptionsText="Không tìm thấy kết quả nào..."
                     renderOption={(props, option) => (
                       <li {...props} key={option.slug}>
                         <Link
