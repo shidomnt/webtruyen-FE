@@ -10,7 +10,7 @@ import {
   Stack,
 } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getChapter } from '../api';
 import Loading from './Loading';
 import { TruyenContext } from './TruyenPage';
@@ -22,6 +22,11 @@ export const ChapterPage = () => {
   const { truyen } = useContext(TruyenContext);
   const [selectChapterValue, setSelectChapterValue] = useState(chapNumber);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    setChapter(undefined);
+  }, [location]);
 
   useEffect(() => {
     if (truyen) {
@@ -41,7 +46,6 @@ export const ChapterPage = () => {
   }, [chapNumber]);
 
   function handleChange(event: SelectChangeEvent<string>) {
-    setChapter(undefined);
     navigate(`/truyen-tranh/${truyen?.slug}/${event.target.value}`);
   }
 
